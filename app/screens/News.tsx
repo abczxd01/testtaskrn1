@@ -15,7 +15,7 @@ import { Articles, Article, NewsProps } from '../types';
 const url =
   'https://newsapi.org/v2/everything?q=bitcoin&apiKey=1fbdd250ba2e4eaabd5d9f2967545676&language=en&pageSize=10';
 
-export const News = ({ navigation }: NewsProps) => {
+export const News: React.FC<NewsProps> = ({ navigation }) => {
   const [news, setNews] = useState<Articles | null>(null);
   const [newsStatus, setNewsStatus] = useState({
     loading: false,

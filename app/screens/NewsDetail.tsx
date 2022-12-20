@@ -6,8 +6,8 @@ import {
   Image,
   ImageSourcePropType,
 } from 'react-native';
-Text;
-export const NewsDetail = ({ route }: NewsDetailProps) => {
+
+export const NewsDetail: React.FC<NewsDetailProps> = ({ route }) => {
   const { article } = route.params;
   const { title, urlToImage, description } = article;
 

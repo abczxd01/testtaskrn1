@@ -13,6 +13,9 @@ export type Articles = Article[];
 
 export type RootStackParamList = {
   News: undefined;
+  NoInternet: undefined;
+  WebViewScreen: undefined;
+  ActivityIndicator: undefined;
   NewsDetail: { article: Article };
 };
 
@@ -20,4 +23,12 @@ export type NewsProps = NativeStackScreenProps<RootStackParamList, 'News'>;
 export type NewsDetailProps = NativeStackScreenProps<
   RootStackParamList,
   'NewsDetail'
+>;
+export type WebViewScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  'WebViewScreen'
+>;
+export type NoInternetProps = NativeStackScreenProps<
+  RootStackParamList,
+  'NoInternet'
 >;
