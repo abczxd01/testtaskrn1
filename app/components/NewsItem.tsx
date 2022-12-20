@@ -10,11 +10,10 @@ import {
 type Props = {
   title: String;
   urlToImage: String;
+  onPress: () => void;
 };
 
-export const NewsItem = ({ title, urlToImage }: Props) => {
-  const onPress = () => {};
-
+export const NewsItem = ({ title, urlToImage, onPress }: Props) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.touchableOpacity} onPress={onPress}>

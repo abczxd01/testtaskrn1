@@ -10,12 +10,12 @@ import {
 import axios from 'axios';
 
 import { NewsItem } from '../components/NewsItem';
-import { Articles } from '../types';
+import { Articles, Article, NewsProps } from '../types';
 
 const url =
   'https://newsapi.org/v2/everything?q=bitcoin&apiKey=1fbdd250ba2e4eaabd5d9f2967545676&language=en&pageSize=10';
 
-export const Home = () => {
+export const News = ({ navigation }: NewsProps) => {
   const [news, setNews] = useState<Articles | null>(null);
   const [newsStatus, setNewsStatus] = useState({
     loading: false,
@@ -36,6 +36,9 @@ export const Home = () => {
       .catch(() => setNewsStatus({ loading: false, error: true }));
   }, []);
 
+  const onPressDetail = (article: Article) =>
+    navigation.navigate('NewsDetail', { article });
+
   const renderNews = () => {
     if (newsStatus.loading) {
       return <ActivityIndicator size={'large'} />;
@@ -45,7 +48,11 @@ export const Home = () => {
           style={styles.news}
           data={news}
           renderItem={({ item }) => (
-            <NewsItem title={item.title} urlToImage={item.urlToImage} />
+            <NewsItem
+              title={item.title}
+              urlToImage={item.urlToImage}
+              onPress={() => onPressDetail(item)}
+            />
           )}
         />
       );
