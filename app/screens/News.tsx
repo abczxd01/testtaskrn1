@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
 import {
   ActivityIndicator,
   FlatList,
@@ -60,12 +59,7 @@ export const News: React.FC<NewsProps> = ({ navigation }) => {
     return <Text style={styles.errorText}>{'Something went wrong :('}</Text>;
   };
 
-  return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      {renderNews()}
-    </View>
-  );
+  return <View style={styles.container}>{renderNews()}</View>;
 };
 
 const styles = StyleSheet.create({

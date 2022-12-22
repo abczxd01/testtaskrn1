@@ -21,15 +21,20 @@ import { Button } from './app/components/Button';
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 const WrappedActivityIndicator = () => (
-  <View style={{ flex: 1, justifyContent: 'center' }}>
+  <View style={{ flex: 1, justifyContent: 'center', backgroundColor: '#fff' }}>
     <ActivityIndicator size={'large'} />
   </View>
 );
 
-const mainHeaderOptions: NativeStackNavigationOptions = {
+const options: NativeStackNavigationOptions = {
   statusBarHidden: false,
   statusBarStyle: 'dark',
   statusBarTranslucent: false,
+};
+
+const optionsWithHeaderHidden = {
+  ...options,
+  headerShown: false,
 };
 
 export default function App() {
@@ -60,18 +65,17 @@ export default function App() {
 
   useEffect(() => {
     checkShowOrNoWebView();
-  }, [error]);
+  }, []);
 
   const onPress = () => {
     setError(null);
     setLoading(true);
+    checkShowOrNoWebView();
   };
 
-  const renderErrorMessage = () => {
-    const errorMessage =
-      error instanceof Object && 'message' in error
-        ? (error.message as string)
-        : 'Unknown error';
+  const ErrorMessage = () => {
+    //@ts-ignore
+    const errorMessage = error?.message || 'Unknown error';
 
     return (
       <View style={styles.errorContainer}>
@@ -84,26 +88,42 @@ export default function App() {
 
   const renderNewsScreens = () => (
     <>
-      <RootStack.Screen
-        name="News"
-        component={News}
-        options={mainHeaderOptions}
-      />
+      <RootStack.Screen name="News" component={News} options={options} />
       <RootStack.Screen
         name="NewsDetail"
         component={NewsDetail}
-        options={{ title: 'Detail', ...mainHeaderOptions }}
+        options={{ title: 'Detail', ...options }}
       />
     </>
   );
 
   const renderScreens = () => {
+    if (loading || isConnected === null) {
+      return (
+        <RootStack.Screen
+          name="WrappedActivityIndicator"
+          component={WrappedActivityIndicator}
+          options={optionsWithHeaderHidden}
+        />
+      );
+    }
+
+    if (error) {
+      return (
+        <RootStack.Screen
+          name="ErrorMessage"
+          component={ErrorMessage}
+          options={optionsWithHeaderHidden}
+        />
+      );
+    }
+
     if (!isConnected) {
       return (
         <RootStack.Screen
           name="NoInternet"
           component={NoInternet}
-          options={{ headerShown: false, ...mainHeaderOptions }}
+          options={optionsWithHeaderHidden}
         />
       );
     }
@@ -112,7 +132,7 @@ export default function App() {
         <RootStack.Screen
           name="WebViewScreen"
           component={WebViewScreen}
-          options={{ headerShown: false, ...mainHeaderOptions }}
+          options={optionsWithHeaderHidden}
         />
       );
     }
@@ -120,29 +140,14 @@ export default function App() {
     return renderNewsScreens();
   };
 
-  const renderContent = () => {
-    if (loading || isConnected === null) {
-      return <WrappedActivityIndicator />;
-    }
-    if (error) {
-      return renderErrorMessage();
-    }
-
-    return <RootStack.Navigator>{renderScreens()}</RootStack.Navigator>;
-  };
-
   return (
     <NavigationContainer>
-      <View style={styles.container}>{renderContent()}</View>
+      <RootStack.Navigator>{renderScreens()}</RootStack.Navigator>
     </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
   errorText: {
     fontSize: 22,
     fontWeight: '600',
@@ -153,5 +158,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#fff',
   },
 });

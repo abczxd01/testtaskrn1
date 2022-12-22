@@ -15,7 +15,8 @@ export type RootStackParamList = {
   News: undefined;
   NoInternet: undefined;
   WebViewScreen: undefined;
-  ActivityIndicator: undefined;
+  WrappedActivityIndicator: undefined;
+  ErrorMessage: undefined;
   NewsDetail: { article: Article };
 };
 
