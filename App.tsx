@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, View, StyleSheet, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {
+  NativeStackNavigationOptions,
+  createNativeStackNavigator,
+} from '@react-navigation/native-stack';
 import { useNetInfo } from '@react-native-community/netinfo';
 import { isDevice } from 'expo-device';
 import { getCarrierNameAsync } from 'expo-cellular';
-import { StatusBar } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import remoteConfig from '@react-native-firebase/remote-config';
 
@@ -23,6 +25,12 @@ const WrappedActivityIndicator = () => (
     <ActivityIndicator size={'large'} />
   </View>
 );
+
+const mainHeaderOptions: NativeStackNavigationOptions = {
+  statusBarHidden: false,
+  statusBarStyle: 'dark',
+  statusBarTranslucent: false,
+};
 
 export default function App() {
   const { isConnected } = useNetInfo();
@@ -76,11 +84,15 @@ export default function App() {
 
   const renderNewsScreens = () => (
     <>
-      <RootStack.Screen name="News" component={News} />
+      <RootStack.Screen
+        name="News"
+        component={News}
+        options={mainHeaderOptions}
+      />
       <RootStack.Screen
         name="NewsDetail"
         component={NewsDetail}
-        options={{ title: 'Detail' }}
+        options={{ title: 'Detail', ...mainHeaderOptions }}
       />
     </>
   );
@@ -91,7 +103,7 @@ export default function App() {
         <RootStack.Screen
           name="NoInternet"
           component={NoInternet}
-          options={{ headerShown: false }}
+          options={{ headerShown: false, ...mainHeaderOptions }}
         />
       );
     }
@@ -100,7 +112,7 @@ export default function App() {
         <RootStack.Screen
           name="WebViewScreen"
           component={WebViewScreen}
-          options={{ headerShown: false }}
+          options={{ headerShown: false, ...mainHeaderOptions }}
         />
       );
     }
@@ -121,7 +133,6 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <StatusBar translucent={false} />
       <View style={styles.container}>{renderContent()}</View>
     </NavigationContainer>
   );
