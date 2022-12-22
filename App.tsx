@@ -33,6 +33,8 @@ export default function App() {
   const checkShowOrNoWebView = async () => {
     try {
       await remoteConfig().fetchAndActivate();
+      await remoteConfig().fetch(60);
+
       const carrier = await getCarrierNameAsync();
       const url = remoteConfig().getString('url');
 
@@ -42,6 +44,7 @@ export default function App() {
         setIsOpenedWebView(true);
       }
     } catch (error) {
+      await remoteConfig().reset();
       setError(error);
       setLoading(false);
     }
