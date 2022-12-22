@@ -1,9 +1,14 @@
-import { useEffect, useState, useRef, RefObject } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { SafeAreaView, StyleSheet, BackHandler, Platform } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import WebView from 'react-native-webview';
 
 import { WebViewScreenProps } from '../types';
-import { getUrl } from '../utils';
+
+export const getUrl = async () => {
+  const url = await AsyncStorage.getItem('url');
+  return url !== '' ? url : false;
+};
 
 export const WebViewScreen: React.FC<WebViewScreenProps> = () => {
   const [url, setUrl] = useState<null | string>(null);

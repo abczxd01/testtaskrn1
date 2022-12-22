@@ -1,7 +1,8 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { useNetInfo } from '@react-native-community/netinfo';
 
 import { NoInternetProps } from '../types';
+import { Button } from '../components/Button';
 
 export const NoInternet: React.FC<NoInternetProps> = ({ navigation }) => {
   const { isConnected } = useNetInfo();
@@ -11,9 +12,8 @@ export const NoInternet: React.FC<NoInternetProps> = ({ navigation }) => {
     <View style={styles.container}>
       <Text style={styles.title}>{'No internet connection'}</Text>
       <Text style={styles.subtitle}>{'Enable your internet'}</Text>
-      <TouchableOpacity onPress={onPress} style={styles.button}>
-        <Text style={styles.buttonText}>{'Try again'}</Text>
-      </TouchableOpacity>
+      <Button onPress={onPress} />
+      <View style={{ height: 40 }} />
     </View>
   );
 };
@@ -36,20 +36,6 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: '600',
     textAlign: 'center',
-  },
-  button: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 40,
-    borderWidth: 2,
-    borderColor: 'rgba(0,0,0,0.7)',
-    width: '35%',
-    marginTop: 30,
-    marginBottom: 80,
-  },
-  buttonText: {
-    fontSize: 18,
-    fontWeight: '500',
-    color: 'rgba(0,0,0,0.7)',
+    marginBottom: 30,
   },
 });
