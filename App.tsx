@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useNetInfo } from '@react-native-community/netinfo';
 import { isDevice } from 'expo-device';
 import { getCarrierNameAsync } from 'expo-cellular';
+import { StatusBar } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import remoteConfig from '@react-native-firebase/remote-config';
 
@@ -117,6 +118,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
+      <StatusBar translucent={false} />
       <View style={styles.container}>{renderContent()}</View>
     </NavigationContainer>
   );
